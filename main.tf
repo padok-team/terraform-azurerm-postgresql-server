@@ -34,6 +34,16 @@ resource "azurerm_postgresql_server" "this" {
   backup_retention_days        = var.backup_retention_days
   geo_redundant_backup_enabled = var.geo_redundant_backup_enabled
 
+  threat_detection_policy {
+    enabled                    = lookup(var.threat_detection_policy, "enabled", true)
+    disabled_alerts            = lookup(var.threat_detection_policy, "disabled_alerts", null)
+    email_account_admins       = lookup(var.threat_detection_policy, "email_account_admins", null)
+    email_addresses            = lookup(var.threat_detection_policy, "email_addresses", null)
+    retention_days             = lookup(var.threat_detection_policy, "retention_days", 30)
+    storage_account_access_key = lookup(var.threat_detection_policy, "storage_account_access_key", null)
+    storage_endpoint           = lookup(var.threat_detection_policy, "storage_endpoint", null)
+  }
+
   identity {
     type = "SystemAssigned"
   }

@@ -84,6 +84,12 @@ variable "pg_configs" {
   default     = {}
 }
 
+variable "threat_detection_policy" {
+  description = "Configure threat detection policy for pg server."
+  type        = any
+  default     = {}
+}
+
 variable "databases" {
   description = "A mapping with the databases to create."
   type = map(object({
