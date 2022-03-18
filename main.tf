@@ -41,6 +41,16 @@ resource "azurerm_postgresql_server" "this" {
   tags = var.tags
 }
 
+resource "azurerm_postgresql_database" "these" {
+  for_each = var.databases
+
+  name                = each.key
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_postgresql_server.this.name
+  charset             = each.value.charset != null ? each.value.charset : "UTF8"
+  collation           = each.value.collation != null ? each.value.collation : "en_US.UTF8"
+}
+
 resource "azurerm_postgresql_configuration" "these" {
   for_each            = local.pg_configs
   name                = each.key

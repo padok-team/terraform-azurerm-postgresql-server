@@ -84,6 +84,15 @@ variable "pg_configs" {
   default     = {}
 }
 
+variable "databases" {
+  description = "A mapping with the databases to create."
+  type = map(object({
+    collation = string
+    charset   = string
+  }))
+  default = {}
+}
+
 variable "tags" {
   type        = map(string)
   description = "A mapping of tags to assign to the PostgreSQL server."
