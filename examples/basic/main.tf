@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "example" {
   location = "West Europe"
 }
 
-module "postgresql-server" {
+module "postgresql_server" {
   source = "../.."
 
   name                = "my-postgresql-server"

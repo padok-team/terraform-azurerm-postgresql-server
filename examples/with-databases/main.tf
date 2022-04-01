@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "example" {
   location = "West Europe"
 }
 
-module "postgresql-server" {
+module "postgresql_server" {
   source = "../.."
 
   name                = "my-postgresql-server"
@@ -16,8 +16,8 @@ module "postgresql-server" {
   administrator_login = "admintest"
 
   databases = {
-    "db1" = { charset = "utf8", collation = "en_US.utf8" },
-    "db2" = { charset = "utf8", collation = "en_US.utf8" },
-    "db3" = { charset = "utf8", collation = "en_US.utf8" },
+    "db1" = { charset = "UTF8", collation = "en-US" },
+    "db2" = { charset = "UTF8", collation = "en-US" },
+    "db3" = { charset = "UTF8", collation = "en-US" },
   }
 }

@@ -72,6 +72,16 @@ variable "backup_retention_days" {
   default     = 30
 }
 
+variable "backup_configuration" {
+  description = "Postgresql Databases Data Protection Backup Instances configuration."
+  type = object({
+    vault_id                                = string
+    backup_policy_id                        = string
+    database_credential_key_vault_secret_id = string
+  })
+  default = null
+}
+
 variable "geo_redundant_backup_enabled" {
   type        = bool
   description = "Is Geo-Redundant backup enabled on the PostgreSQL Server. Defaults to true."
@@ -99,12 +109,6 @@ variable "databases" {
   default = {}
 }
 
-variable "tags" {
-  type        = map(string)
-  description = "A mapping of tags to assign to the PostgreSQL server."
-  default     = {}
-}
-
 variable "custom_encryption_enabled" {
   type        = bool
   description = "Whether to use a customer managed key for the PostgreSQL server."
@@ -117,8 +121,14 @@ variable "customer_managed_key_id" {
   default     = null
 }
 
-variable "subnet_ids" {
+variable "allowed_subnet_ids" {
   type        = list(string)
-  description = "The list of subnet IDs to connect the PostgreSQL server to."
+  description = "The list of subnet IDs to connect the PostgreSQL server to. `public_network_access_enabled` must be set to true."
   default     = []
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "A mapping of tags to assign to the PostgreSQL server."
+  default     = {}
 }

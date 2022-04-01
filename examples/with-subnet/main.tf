@@ -4,11 +4,11 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "example" {
   name     = "my-rg"
-  location = "West Europe"
+  location = "France Central"
 }
 
 module "network" {
-  source = "git@github.com:padok-team/terraform-azurerm-network.git?ref=v1.0.0"
+  source = "git@github.com:padok-team/terraform-azurerm-network.git?ref=v0.1.0"
 
   resource_group     = azurerm_resource_group.example
   vnet_name          = "my-vnet"
@@ -18,7 +18,7 @@ module "network" {
   }
 }
 
-module "postgresql-server" {
+module "postgresql_server" {
   source = "../.."
 
   name                = "my-postgresql-server"
@@ -26,5 +26,7 @@ module "postgresql-server" {
   location            = azurerm_resource_group.example.location
   administrator_login = "admintest"
 
-  subnet_ids = [module.network.subnets["subnet1"].this.id]
+  public_network_access_enabled = true
+
+  allowed_subnet_ids = [module.network.subnets["subnet1"].this.id]
 }

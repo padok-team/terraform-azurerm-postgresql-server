@@ -1,10 +1,12 @@
 locals {
   pg_configs = merge({
-    "log_connections" : "ON",
+    "log_connections" : "on",
     "log_disconnections" : "ON",
     "log_duration" : "ON",
     "log_retention_days" : "7",
   }, var.pg_configs)
+
+  backup_databases = var.backup_configuration != null ? toset(keys(var.databases)) : toset([])
 }
 
 resource "random_password" "this" {
@@ -77,20 +79,32 @@ resource "azurerm_postgresql_server_key" "this" {
 }
 
 resource "random_id" "these" {
-  count = length(var.subnet_ids)
+  count = length(var.allowed_subnet_ids)
 
   keepers = {
-    subnet_id = var.subnet_ids[count.index]
+    subnet_id = var.allowed_subnet_ids[count.index]
   }
 
   byte_length = 4
 }
 
 resource "azurerm_postgresql_virtual_network_rule" "this" {
-  count = length(var.subnet_ids)
+  count = length(var.allowed_subnet_ids)
 
-  name                = "${azurerm_postgresql_server.this.name}-vnet-rule-${random_id.these[count.index].hex}"
-  resource_group_name = azurerm_postgresql_server.this.resource_group_name
-  server_name         = azurerm_postgresql_server.this.name
-  subnet_id           = var.subnet_ids[count.index]
+  name                                 = "${azurerm_postgresql_server.this.name}-vnet-rule-${random_id.these[count.index].hex}"
+  resource_group_name                  = azurerm_postgresql_server.this.resource_group_name
+  server_name                          = azurerm_postgresql_server.this.name
+  subnet_id                            = var.allowed_subnet_ids[count.index]
+  ignore_missing_vnet_service_endpoint = true
+}
+
+resource "azurerm_data_protection_backup_instance_postgresql" "these" {
+  for_each = local.backup_databases
+
+  name                                    = each.key
+  location                                = var.location
+  database_id                             = azurerm_postgresql_database.these[each.key].id
+  vault_id                                = var.backup_configuration.vault_id
+  backup_policy_id                        = var.backup_configuration.backup_policy_id
+  database_credential_key_vault_secret_id = var.backup_configuration.database_credential_key_vault_secret_id
 }

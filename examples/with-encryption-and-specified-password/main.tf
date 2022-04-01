@@ -28,7 +28,7 @@ module "keyvault" {
 resource "azurerm_key_vault_access_policy" "server" {
   key_vault_id = module.keyvault.this.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = module.postgresql-server.principal_id
+  object_id    = module.postgresql_server.principal_id
 
   key_permissions    = ["get", "unwrapkey", "wrapkey"]
   secret_permissions = ["get"]
@@ -44,7 +44,7 @@ resource "azurerm_key_vault_access_policy" "client" {
 }
 
 resource "azurerm_key_vault_key" "example" {
-  name         = "my-private-key"
+  name         = "padok-private-key"
   key_vault_id = module.keyvault.id
   key_type     = "RSA"
   key_size     = 2048
@@ -57,9 +57,13 @@ resource "azurerm_key_vault_key" "example" {
     "verify",
     "wrapKey",
   ]
+
+  depends_on = [
+    azurerm_key_vault_access_policy.client
+  ]
 }
 
-module "postgresql-server" {
+module "postgresql_server" {
   source = "../.."
 
   name                   = "my-postgresql-server"
