@@ -109,6 +109,12 @@ variable "databases" {
   default = {}
 }
 
+variable "system_assigned_identity" {
+  type        = bool
+  description = "Whether or not to create a system assigned identity."
+  default     = true
+}
+
 variable "custom_encryption_enabled" {
   type        = bool
   description = "Whether to use a customer managed key for the PostgreSQL server."

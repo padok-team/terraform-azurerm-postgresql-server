@@ -46,8 +46,12 @@ resource "azurerm_postgresql_server" "this" {
     storage_endpoint           = lookup(var.threat_detection_policy, "storage_endpoint", null)
   }
 
-  identity {
-    type = "SystemAssigned"
+  dynamic "identity" {
+    for_each = var.system_assigned_identity ? [1] : []
+
+    content {
+      type = "SystemAssigned"
+    }
   }
 
   tags = var.tags
