@@ -78,24 +78,13 @@ resource "azurerm_postgresql_server_key" "this" {
   key_vault_key_id = var.customer_managed_key_id
 }
 
-resource "random_id" "these" {
-  count = length(var.allowed_subnet_ids)
-
-  keepers = {
-    subnet_id = var.allowed_subnet_ids[count.index]
-  }
-
-  byte_length = 4
-}
-
-resource "azurerm_postgresql_virtual_network_rule" "this" {
-  count = length(var.allowed_subnet_ids)
-
-  name                                 = "${azurerm_postgresql_server.this.name}-vnet-rule-${random_id.these[count.index].hex}"
-  resource_group_name                  = azurerm_postgresql_server.this.resource_group_name
-  server_name                          = azurerm_postgresql_server.this.name
-  subnet_id                            = var.allowed_subnet_ids[count.index]
-  ignore_missing_vnet_service_endpoint = true
+resource "azurerm_postgresql_firewall_rule" "these" {
+  for_each            = var.firewall_rules
+  name                = each.key
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_postgresql_server.this.name
+  start_ip_address    = each.value.start_ip_address
+  end_ip_address      = each.value.end_ip_address
 }
 
 resource "azurerm_data_protection_backup_instance_postgresql" "these" {

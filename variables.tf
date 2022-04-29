@@ -121,10 +121,13 @@ variable "customer_managed_key_id" {
   default     = null
 }
 
-variable "allowed_subnet_ids" {
-  type        = list(string)
-  description = "The list of subnet IDs to connect the PostgreSQL server to. `public_network_access_enabled` must be set to true."
-  default     = []
+variable "firewall_rules" {
+  description = "A map of firewall rules."
+  type = map(object({
+    start_ip_address = string
+    end_ip_address   = string
+  }))
+  default = {}
 }
 
 variable "tags" {
