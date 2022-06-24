@@ -67,13 +67,6 @@ resource "azurerm_postgresql_database" "these" {
   collation           = each.value.collation != null ? each.value.collation : "en_US.UTF8"
 }
 
-resource "azurerm_postgresql_configuration" "these" {
-  for_each            = local.pg_configs
-  name                = each.key
-  resource_group_name = var.resource_group_name
-  server_name         = azurerm_postgresql_server.this.name
-  value               = each.value
-}
 
 resource "azurerm_postgresql_server_key" "this" {
   count = var.custom_encryption_enabled ? 1 : 0
@@ -100,4 +93,31 @@ resource "azurerm_data_protection_backup_instance_postgresql" "these" {
   vault_id                                = var.backup_configuration.vault_id
   backup_policy_id                        = var.backup_configuration.backup_policy_id
   database_credential_key_vault_secret_id = var.backup_configuration.database_credential_key_vault_secret_id
+}
+
+
+#######################################################
+# tfsec required configurations
+#######################################################
+
+resource "azurerm_postgresql_configuration" "connection_throttling" {
+  name                = "connection_throttling"
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_postgresql_server.this.name
+  value               = "on"
+}
+
+resource "azurerm_postgresql_configuration" "log_checkpoints" {
+  name                = "log_checkpoints"
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_postgresql_server.this.name
+  value               = "on"
+}
+
+resource "azurerm_postgresql_configuration" "these" {
+  for_each            = local.pg_configs
+  name                = each.key
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_postgresql_server.this.name
+  value               = each.value
 }

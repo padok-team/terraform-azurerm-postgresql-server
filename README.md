@@ -1,26 +1,50 @@
 # Azurerm PostgreSQL server Terraform module
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [User Stories for this module](#user-stories-for-this-module)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Modules](#modules)
+- [Inputs](#inputs)
+- [Outputs](#outputs)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Terraform module which creates PostgreSQL server resources on Azurerm.
 
 ## User Stories for this module
 
-- AATYPE I can be highly available or single zone
-- ...
+- AAOPS I can enable backup on my database
+- AAOPS I can have a SystemAssigned identity
+- AAOPS I can integrate multiple databases in my server
+- AAOPS I can configure firewall rules
+- AAOPS I can encrypt my database
 
 ## Usage
 
 ```hcl
-module "example" {
-  source = "https://github.com/padok-team/terraform-aws-example"
+resource "azurerm_resource_group" "example" {
+  name     = "my-rg"
+  location = "West Europe"
+}
 
-  example_of_required_variable = "hello_world"
+module "postgresql_server" {
+  source = "https://github.com/padok-team/terraform-azurerm-postgresql-server?ref=v0.1.0"
+
+  name                = "my-postgresql-server"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
+  administrator_login = "admintest"
 }
 ```
 
 ## Examples
 
-- [Example of use case](examples/example_of_use_case/main.tf)
-- [Example of other use case](examples/example_of_other_use_case/main.tf)
+- [Minimal database deployment configuration](examples/basic/main.tf)
+- [Encrypted database configuration](examples/encrypted_database/main.tf)
 
 <!-- BEGIN_TF_DOCS -->
 ## Modules
