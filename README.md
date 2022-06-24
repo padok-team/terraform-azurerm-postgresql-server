@@ -1,5 +1,7 @@
 # Azurerm PostgreSQL server Terraform module
 
+Terraform module which creates PostgreSQL server and databases resources on Azurerm.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
@@ -10,10 +12,9 @@
 - [Modules](#modules)
 - [Inputs](#inputs)
 - [Outputs](#outputs)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-Terraform module which creates PostgreSQL server resources on Azurerm.
 
 ## User Stories for this module
 
@@ -91,3 +92,7 @@ No modules.
 | <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | The ID of the Tenant the Service Principal is assigned in. |
 | <a name="output_username"></a> [username](#output\_username) | The PostgreSQL server administrator's username. |
 <!-- END_TF_DOCS -->
+
+## License
+
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
