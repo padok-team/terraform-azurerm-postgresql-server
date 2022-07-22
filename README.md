@@ -1,26 +1,51 @@
 # Azurerm PostgreSQL server Terraform module
 
-Terraform module which creates PostgreSQL server resources on Azurerm.
+Terraform module which creates PostgreSQL server and databases resources on Azurerm.
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [User Stories for this module](#user-stories-for-this-module)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Modules](#modules)
+- [Inputs](#inputs)
+- [Outputs](#outputs)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## User Stories for this module
 
-- AATYPE I can be highly available or single zone
-- ...
+- AAOPS I can enable backup on my database
+- AAOPS I can have a SystemAssigned identity
+- AAOPS I can integrate multiple databases in my server
+- AAOPS I can configure firewall rules
+- AAOPS I can encrypt my database
 
 ## Usage
 
 ```hcl
-module "example" {
-  source = "https://github.com/padok-team/terraform-aws-example"
+resource "azurerm_resource_group" "example" {
+  name     = "my-rg"
+  location = "West Europe"
+}
 
-  example_of_required_variable = "hello_world"
+module "postgresql_server" {
+  source = "https://github.com/padok-team/terraform-azurerm-postgresql-server?ref=v0.1.0"
+
+  name                = "my-postgresql-server"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
+  administrator_login = "admintest"
 }
 ```
 
 ## Examples
 
-- [Example of use case](examples/example_of_use_case/main.tf)
-- [Example of other use case](examples/example_of_other_use_case/main.tf)
+- [Minimal database deployment configuration](examples/basic/main.tf)
+- [Encrypted database configuration](examples/encrypted_database/main.tf)
 
 <!-- BEGIN_TF_DOCS -->
 ## Modules
@@ -67,3 +92,7 @@ No modules.
 | <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | The ID of the Tenant the Service Principal is assigned in. |
 | <a name="output_username"></a> [username](#output\_username) | The PostgreSQL server administrator's username. |
 <!-- END_TF_DOCS -->
+
+## License
+
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
