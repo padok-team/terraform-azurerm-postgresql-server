@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/padok-team/terraform-azurerm-postgresql-server/compare/v0.1.0...v0.2.0) (2022-07-29)
+
+
+### Features
+
+* **automation:** add Release Please configuration ([6afba97](https://github.com/padok-team/terraform-azurerm-postgresql-server/commit/6afba97c91f2a4620af67954fbc0331b30edccb7))
+
+
+### Bug Fixes
+
+* **outputs:** remove useless outputs & add server instance as this ([ee0946e](https://github.com/padok-team/terraform-azurerm-postgresql-server/commit/ee0946ea5ade4075940dfcdda8c3d33f3780c94d))
+* **tfsec:** add required configuration to match tfsec warnings ([f9c8355](https://github.com/padok-team/terraform-azurerm-postgresql-server/commit/f9c83552231c559787fe030e2855cf0d7373a185))
+
 ## 0.1.0 (2022-04-29)
 
 
