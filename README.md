@@ -84,13 +84,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_fqdn"></a> [fqdn](#output\_fqdn) | The PostgreSQL server's fully qualified domain name (FQDN). |
-| <a name="output_id"></a> [id](#output\_id) | The ID of the PostgreSQL server. |
-| <a name="output_name"></a> [name](#output\_name) | The PostgreSQL server name. |
-| <a name="output_password"></a> [password](#output\_password) | The PostgreSQL server administrator's password. |
-| <a name="output_principal_id"></a> [principal\_id](#output\_principal\_id) | The Client ID of the Service Principal assigned to this PostgreSQL Server. |
-| <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | The ID of the Tenant the Service Principal is assigned in. |
-| <a name="output_username"></a> [username](#output\_username) | The PostgreSQL server administrator's username. |
+| <a name="output_this"></a> [this](#output\_this) | The postgreSQL server instance. |
 <!-- END_TF_DOCS -->
 
 ## License
