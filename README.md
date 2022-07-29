@@ -33,7 +33,7 @@ resource "azurerm_resource_group" "example" {
 }
 
 module "postgresql_server" {
-  source = "https://github.com/padok-team/terraform-azurerm-postgresql-server?ref=v0.1.0"
+  source = "https://github.com/padok-team/terraform-azurerm-postgresql-server?ref=v0.2.0"
 
   name                = "my-postgresql-server"
   resource_group_name = azurerm_resource_group.example.name
