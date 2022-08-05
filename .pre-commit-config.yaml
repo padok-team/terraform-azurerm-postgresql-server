@@ -26,7 +26,3 @@ repos:
     rev: v0.1.17
     hooks:
       - id: terragrunt-hclfmt
-  - repo: https://github.com/thlorenz/doctoc
-    rev: v2.2.0
-    hooks:
-      - id: doctoc

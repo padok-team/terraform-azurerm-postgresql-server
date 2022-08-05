@@ -1,16 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [Changelog](#changelog)
-  - [0.2.0 (2022-07-29)](#020-2022-07-29)
-    - [Features](#features)
-    - [Bug Fixes](#bug-fixes)
-  - [0.1.0 (2022-04-29)](#010-2022-04-29)
-    - [Features](#features-1)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
