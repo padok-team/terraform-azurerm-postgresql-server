@@ -5,8 +5,8 @@ metadata:
   name: terraform-azurerm-postgresql-server
   description: A module to create and manage PostgreSQL Server on Azure.
   tags:
-    - "terraform"
-    - "azure"
+    - terraform
+    - azure
   annotations:
     github.com/project-slug: padok-team/terraform-azurerm-postgresql-server
     backstage.io/techdocs-ref: dir:.
