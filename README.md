@@ -6,13 +6,14 @@ Terraform module which creates PostgreSQL server and databases resources on Azur
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [User Stories for this module](#user-stories-for-this-module)
-- [Usage](#usage)
-- [Examples](#examples)
-- [Modules](#modules)
-- [Inputs](#inputs)
-- [Outputs](#outputs)
-- [License](#license)
+- [Azurerm PostgreSQL server Terraform module](#azurerm-postgresql-server-terraform-module)
+  - [User Stories for this module](#user-stories-for-this-module)
+  - [Usage](#usage)
+  - [Examples](#examples)
+  - [Modules](#modules)
+  - [Inputs](#inputs)
+  - [Outputs](#outputs)
+  - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -33,7 +34,7 @@ resource "azurerm_resource_group" "example" {
 }
 
 module "postgresql_server" {
-  source = "https://github.com/padok-team/terraform-azurerm-postgresql-server?ref=v0.2.0"
+  source = "git@github.com:padok-team/terraform-azurerm-postgresql-server?ref=v0.2.0"
 
   name                = "my-postgresql-server"
   resource_group_name = azurerm_resource_group.example.name
