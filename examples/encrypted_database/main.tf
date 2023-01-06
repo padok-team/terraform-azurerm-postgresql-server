@@ -1,6 +1,5 @@
-provider "azurerm" {
-  features {}
-}
+resource "random_pet" "kv" {}
+resource "random_pet" "psql" {}
 
 data "azurerm_client_config" "current" {}
 
@@ -11,7 +10,7 @@ resource "azurerm_resource_group" "example" {
 
 module "keyvault" {
   source              = "git@github.com:padok-team/terraform-azurerm-keyvault?ref=v0.1.0"
-  name                = "padok-pgsql-keyvault"
+  name                = random_pet.kv.id
   resource_group_name = azurerm_resource_group.example.name
   sku_name            = "standard"
 
@@ -28,7 +27,7 @@ module "keyvault" {
 resource "azurerm_key_vault_access_policy" "server" {
   key_vault_id = module.keyvault.this.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = module.postgresql_server.principal_id
+  object_id    = module.postgresql_server.this.identity[0].principal_id
 
   key_permissions    = ["Get", "UnwrapKey", "WrapKey"]
   secret_permissions = ["Get"]
@@ -67,7 +66,7 @@ resource "azurerm_key_vault_key" "example" {
 module "postgresql_server" {
   source = "../.."
 
-  name                   = "my-postgresql-server"
+  name                   = random_pet.psql.id
   resource_group_name    = azurerm_resource_group.example.name
   location               = azurerm_resource_group.example.location
   administrator_login    = "admintest"
@@ -75,14 +74,13 @@ module "postgresql_server" {
 
   custom_encryption_enabled = true
   customer_managed_key_id   = azurerm_key_vault_key.example.id
-
-  depends_on = [
-    azurerm_key_vault_key.example
-  ]
-
   databases = {
     "db1" = { charset = "UTF8", collation = "en-US" },
     "db2" = { charset = "UTF8", collation = "en-US" },
     "db3" = { charset = "UTF8", collation = "en-US" },
   }
+
+  depends_on = [
+    azurerm_key_vault_key.example,
+  ]
 }
