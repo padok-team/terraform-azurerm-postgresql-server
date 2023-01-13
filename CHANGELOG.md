@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/padok-team/terraform-azurerm-postgresql-server/compare/v0.2.0...v0.3.0) (2023-01-13)
+
+
+### Features
+
+* update azurerm provider from 2 to 3 ([e3f0f81](https://github.com/padok-team/terraform-azurerm-postgresql-server/commit/e3f0f810e4b41bdcd78def23e3336c74830b43c4))
+
+
+### Bug Fixes
+
+* **versions:** allow using module with more recent versions of Terraform ([5afdee7](https://github.com/padok-team/terraform-azurerm-postgresql-server/commit/5afdee7926314d310a722e70b1807a15d069cbde))
+
 ## [0.2.0](https://github.com/padok-team/terraform-azurerm-postgresql-server/compare/v0.1.0...v0.2.0) (2022-07-29)
 
 
