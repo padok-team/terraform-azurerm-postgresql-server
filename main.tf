@@ -9,6 +9,13 @@ locals {
   backup_databases = var.backup_configuration != null ? toset(keys(var.databases)) : toset([])
 }
 
+resource "random_string" "random" {
+  length  = 6
+  special = false
+  upper   = false
+}
+
+
 resource "random_password" "this" {
   # Generate a random password if the administrator_password is not set
   count  = var.administrator_password != null ? 0 : 1
@@ -17,8 +24,8 @@ resource "random_password" "this" {
 
 resource "azurerm_postgresql_server" "this" {
   name                = var.name
-  resource_group_name = var.resource_group_name
-  location            = var.location
+  resource_group_name = var.resource_group.name
+  location            = var.resource_group.location
 
   sku_name   = var.sku_name
   storage_mb = var.storage_mb
@@ -61,7 +68,7 @@ resource "azurerm_postgresql_database" "these" {
   for_each = var.databases
 
   name                = each.key
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   server_name         = azurerm_postgresql_server.this.name
   charset             = each.value.charset != null ? each.value.charset : "UTF8"
   collation           = each.value.collation != null ? each.value.collation : "en_US.UTF8"
@@ -78,7 +85,7 @@ resource "azurerm_postgresql_server_key" "this" {
 resource "azurerm_postgresql_firewall_rule" "these" {
   for_each            = var.firewall_rules
   name                = each.key
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   server_name         = azurerm_postgresql_server.this.name
   start_ip_address    = each.value.start_ip_address
   end_ip_address      = each.value.end_ip_address
@@ -88,7 +95,7 @@ resource "azurerm_data_protection_backup_instance_postgresql" "these" {
   for_each = local.backup_databases
 
   name                                    = each.key
-  location                                = var.location
+  location                                = var.resource_group.location
   database_id                             = azurerm_postgresql_database.these[each.key].id
   vault_id                                = var.backup_configuration.vault_id
   backup_policy_id                        = var.backup_configuration.backup_policy_id
@@ -102,14 +109,14 @@ resource "azurerm_data_protection_backup_instance_postgresql" "these" {
 
 resource "azurerm_postgresql_configuration" "connection_throttling" {
   name                = "connection_throttling"
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   server_name         = azurerm_postgresql_server.this.name
   value               = "on"
 }
 
 resource "azurerm_postgresql_configuration" "log_checkpoints" {
   name                = "log_checkpoints"
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   server_name         = azurerm_postgresql_server.this.name
   value               = "on"
 }
@@ -117,7 +124,7 @@ resource "azurerm_postgresql_configuration" "log_checkpoints" {
 resource "azurerm_postgresql_configuration" "these" {
   for_each            = local.pg_configs
   name                = each.key
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   server_name         = azurerm_postgresql_server.this.name
   value               = each.value
 }

@@ -3,20 +3,12 @@ variable "name" {
   description = "The name of the PostgreSQL server."
 }
 
-variable "resource_group_name" {
-  type        = string
-  description = "The name of the resource group containing the PostgreSQL server."
-}
-
-variable "location" {
-  type        = string
-  description = "The location of the PostgreSQL server."
-}
-
-variable "sku_name" {
-  type        = string
-  description = "Specifies the SKU Name for this PostgreSQL Server. The name of the SKU follows the tier + family + cores pattern (e.g. B_Gen4_1, GP_Gen5_8)."
-  default     = "GP_Gen5_2"
+variable "resource_group" {
+  description = "The resource group configuration."
+  type = object({
+    name     = string
+    location = string
+  })
 }
 
 variable "administrator_login" {
@@ -28,6 +20,12 @@ variable "administrator_password" {
   type        = string
   description = "The administrator password for the PostgreSQL Server. If not provided, one will be generated."
   default     = null
+}
+
+variable "sku_name" {
+  type        = string
+  description = "Specifies the SKU Name for this PostgreSQL Server. The name of the SKU follows the tier + family + cores pattern (e.g. B_Gen4_1, GP_Gen5_8)."
+  default     = "GP_Gen5_2"
 }
 
 variable "storage_mb" {
@@ -134,6 +132,20 @@ variable "firewall_rules" {
     end_ip_address   = string
   }))
   default = {}
+}
+
+variable "private_endpoint" {
+  description = "The private endpoint configuration."
+  type = object({
+    enable              = bool,
+    subnet_id           = string
+    private_dns_zone_id = string,
+  })
+  default = {
+    enable              = false
+    subnet_id           = null
+    private_dns_zone_id = null
+  }
 }
 
 variable "tags" {
