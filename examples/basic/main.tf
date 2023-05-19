@@ -8,7 +8,6 @@ module "postgresql_server" {
   source = "../.."
 
   name                = random_pet.this.id
-  resource_group_name = azurerm_resource_group.this.name
-  location            = azurerm_resource_group.this.location
+  resource_group      = azurerm_resource_group.this
   administrator_login = "admintest"
 }

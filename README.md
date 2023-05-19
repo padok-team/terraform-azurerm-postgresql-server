@@ -58,9 +58,8 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_administrator_login"></a> [administrator\_login](#input\_administrator\_login) | The administrator login for the PostgreSQL Server. | `string` | n/a | yes |
-| <a name="input_location"></a> [location](#input\_location) | The location of the PostgreSQL server. | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | The name of the PostgreSQL server. | `string` | n/a | yes |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the resource group containing the PostgreSQL server. | `string` | n/a | yes |
+| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | The resource group configuration. | <pre>object({<br>    name     = string<br>    location = string<br>  })</pre> | n/a | yes |
 | <a name="input_administrator_password"></a> [administrator\_password](#input\_administrator\_password) | The administrator password for the PostgreSQL Server. If not provided, one will be generated. | `string` | `null` | no |
 | <a name="input_backup_configuration"></a> [backup\_configuration](#input\_backup\_configuration) | Postgresql Databases Data Protection Backup Instances configuration. | <pre>object({<br>    vault_id                                = string<br>    backup_policy_id                        = string<br>    database_credential_key_vault_secret_id = string<br>  })</pre> | `null` | no |
 | <a name="input_backup_retention_days"></a> [backup\_retention\_days](#input\_backup\_retention\_days) | The backup retention days for the PostgreSQL Server. Possible values are between 7 and 35 days. | `number` | `30` | no |
@@ -72,6 +71,7 @@ No modules.
 | <a name="input_infrastructure_encryption_enabled"></a> [infrastructure\_encryption\_enabled](#input\_infrastructure\_encryption\_enabled) | Should infrastructure encryption be enabled. Defaults to false, as the setting doesn't seem to stay enabled. | `bool` | `false` | no |
 | <a name="input_pg_configs"></a> [pg\_configs](#input\_pg\_configs) | A mapping with the PostgreSQL configurations to apply. | `map(any)` | `{}` | no |
 | <a name="input_pg_version"></a> [pg\_version](#input\_pg\_version) | The version of the PostgreSQL Server. Valid values are 9.5, 9.6, 10, 10.0, and 11. | `string` | `"11"` | no |
+| <a name="input_private_endpoint"></a> [private\_endpoint](#input\_private\_endpoint) | The private endpoint configuration. | <pre>object({<br>    enable              = bool,<br>    subnet_id           = string<br>    private_dns_zone_id = string,<br>  })</pre> | <pre>{<br>  "enable": false,<br>  "private_dns_zone_id": null,<br>  "subnet_id": null<br>}</pre> | no |
 | <a name="input_public_network_access_enabled"></a> [public\_network\_access\_enabled](#input\_public\_network\_access\_enabled) | Whether or not public network access is enabled. | `bool` | `false` | no |
 | <a name="input_sku_name"></a> [sku\_name](#input\_sku\_name) | Specifies the SKU Name for this PostgreSQL Server. The name of the SKU follows the tier + family + cores pattern (e.g. B\_Gen4\_1, GP\_Gen5\_8). | `string` | `"GP_Gen5_2"` | no |
 | <a name="input_ssl_enforcement_enabled"></a> [ssl\_enforcement\_enabled](#input\_ssl\_enforcement\_enabled) | Whether SSL enforcement is enabled for the PostgreSQL Server. | `bool` | `true` | no |
